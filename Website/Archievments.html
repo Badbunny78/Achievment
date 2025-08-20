@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Steam Achievements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .card img {
+            width: 64px;
+            height: 64px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 Meine Steam Achievements 🔥</h1>
+    <div id="achievements" class="grid"></div>
+
+    <script>
+        // HINWEIS: Hier deine echten Werte eintragen
+        const apiKey = 'DEIN_API_KEY';
+        const steamId = 'DEINE_STEAM_ID';
+        const appId = 431960; // Beispiel: AppID für das Spiel
+
+        async function loadAchievements() {
+            try {
+                // Korrekte Verwendung von Template-Literalen
+                async function loadAchievements() {
+    		const proxyUrl = '/.netlify/functions/get-achievements';
+    
+    		try {
+        	     const res = await fetch(`${proxyUrl}?apiKey=${apiKey}&steamid=${steamId}&appid=${appId}`);
+          	     const data = await res.json();
+        
+        	     // ... Rest deines Codes, um die Achievements anzuzeigen, bleibt gleich
+        	     const achievements = data.playerstats.achievements;
+        	     const container = document.getElementById("achievements");
+        	     // ...
+        
+    	         } catch (error) {
+        	     console.error("Fehler beim Laden der Achievements:", error);
+        	     document.getElementById("achievements").innerHTML = "<p>Ein Fehler ist aufgetreten. Überprüfe die Konsole für Details.</p>";
+    		 }
+	 }
+
+                achievements.forEach(a => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    
+                    card.innerHTML = `
+                        <h2>${a.apiname}</h2>
+                        <p>Status: ${a.achieved ? "✅ freigeschaltet" : "❌ noch nicht"}</p>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Fehler beim Laden der Achievements:", error);
+                document.getElementById("achievements").innerHTML = "<p>Ein Fehler ist aufgetreten. Überprüfe die Konsole für Details.</p>";
+            }
+        }
+
+        loadAchievements();
+    </script>
+</body>
+</html>
